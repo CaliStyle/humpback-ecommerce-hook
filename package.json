@@ -1,6 +1,6 @@
 {
   "name": "humpback-ecommerce-hook",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Humpback CMS Hook",
   "main": "index.js",
   "sails": {
