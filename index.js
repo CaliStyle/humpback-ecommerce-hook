@@ -10,15 +10,15 @@ module.exports = function (sails) {
       routes: {
         'get /admin': {
           view: 'admin/index',
-          defaultPermissions: ['admin']
+          defaultRoles: ['admin']
         },
         'get /admin/ecommerce': {
           view: 'admin/index',
-          defaultPermissions: ['admin']
+          defaultRoles: ['admin']
         },
         'get /admin/ecommerce/*': {
           view: 'admin/index',
-          defaultPermissions: ['admin']
+          defaultRoles: ['admin']
         }
       }
     },
@@ -33,10 +33,10 @@ module.exports = function (sails) {
       }
       sails.config.humpback.barnacles.ecommerce = true;
 
-      if (!_.isObject(sails.config.humpback.settings)){
-        sails.config.humpback.settings = { };
+      if (!_.isArray(sails.config.humpback.settings)){
+        sails.config.humpback.settings = [];
       }
-      sails.config.humpback.settings = _.union(sails.config.humpback.settings, _settings);
+      sails.config.humpback.settings = _.extend(sails.config.humpback.settings, _settings);
      
     },
     initialize: function (next) {
@@ -66,8 +66,9 @@ module.exports = function (sails) {
 
       //apply validation hook
       sails.after(eventsToWaitFor, function() {
-      // It's very important to trigger this callback method when you are finished
-      // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+        sails.emit('hook:humpback:ecommerce:loaded');
+        // It's very important to trigger this callback method when you are finished
+        // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
         next();
       });
           
